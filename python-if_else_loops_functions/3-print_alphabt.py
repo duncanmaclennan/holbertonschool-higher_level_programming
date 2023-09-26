@@ -6,4 +6,4 @@ for i in range(97, 123):
     if i == 113 or i == 101:
         continue
     # Print the character corresponding to the ASCII value without a new line
-    print(chr(i), end="")
+    print("{:s}".format(chr(i)), end="")
