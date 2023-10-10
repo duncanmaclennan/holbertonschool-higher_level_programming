@@ -6,8 +6,16 @@ Module for defining a Square with conditions, area calculation, and property set
 
 class Square:
     """
-    Class that defines a square with a private instance attribute size.
-    Includes input validation, a method to compute the area, and property setters/getters.
+    Creating Squares
+
+    Attributes:
+        __size: (int): Size of square
+
+    Methods:
+        __init__(self, size=0): initiliases square with default 0
+        area(self): calculates current square area
+
+
     """
 
     def __init__(self, size=0):
