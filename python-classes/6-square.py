@@ -1,18 +1,17 @@
 #!/usr/bin/python3
 """
-Module for defining a Square with conditions, area calculation, property setters/getters, position attribute, and a print method.
+Module for defining a Square.
 """
 
 
 class Square:
     """
-    Class that defines a square with private attributes size and position.
-    Includes input validation, a method to compute the area, property setters/getters, and a method to print the square.
+    Class that defines a square.
     """
 
     def __init__(self, size=0, position=(0, 0)):
         """
-        Initialization method with an optional size and position arguments.
+        Initialization method with size and position arguments.
         """
         self.size = size  # This will use the size setter
         self.position = position  # This will use the position setter
@@ -67,7 +66,7 @@ class Square:
 
     def my_print(self):
         """
-        Prints the square using the # character considering the position attribute.
+        Prints the square using the # character.
         """
         if self.__size == 0:
             print()
