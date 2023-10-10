@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-Module for defining a Square with conditions, area calculation, and property setters/getters.
+Defining class Square - private attribute size
+getter and setter, public method
 """
 
 
@@ -25,7 +26,7 @@ class Square:
         Args:
             size (int): size of the square
         """
-        self.size = size  # This will use the setter method
+        self.size = size
 
     @property
     def size(self):
@@ -42,7 +43,12 @@ class Square:
         """
         Function to set value of __size
 
-        Setter for size attribute with type and value validation.
+        Args:
+            value (int): size of square
+
+        Raises:
+            TypeError: value must be an int
+            ValueError: value must be greater than 0
         """
         # Type verification
         if not isinstance(value, int):
