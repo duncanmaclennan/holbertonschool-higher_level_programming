@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-class Square:
+class Square():
     """The summary line for a class docstring should fit on one line.
 
     If the class has public attributes, they may be documented here
@@ -7,9 +7,5 @@ class Square:
     function's ``Args`` section. Alternatively, attributes may be documented
     inline with the attribute's declaration (see __init__ method below).
 
-    Properties created with the ``@property`` decorator should be documented
-    in the property's getter method.
-
-    Attributes:
-        none
     """
+    pass
