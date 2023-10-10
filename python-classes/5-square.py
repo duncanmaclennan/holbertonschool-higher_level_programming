@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-Module for defining a Square with conditions, area calculation, property setters/getters, and a print method.
+Defining class Square:
+private attribute size, getter and setter, public method
 """
 
 
