@@ -12,13 +12,18 @@ class Square:
 
     def __init__(self, size=0):
         """
-        Initialization method with an optional size argument.
+        Initialises new Square instance
+
+        Args:
+            size (int): size of the square
         """
         self.size = size  # This will use the setter method
 
     @property
     def size(self):
         """
+        Function to get value of __size
+
         Getter for size attribute.
         Returns the size of the square.
         """
@@ -27,6 +32,8 @@ class Square:
     @size.setter
     def size(self, value):
         """
+        Function to set value of __size
+
         Setter for size attribute with type and value validation.
         """
         # Type verification
@@ -42,6 +49,8 @@ class Square:
 
     def area(self):
         """
+        Function that calculates the current square area
+
         Returns the current square area.
         """
         return self.__size ** 2
