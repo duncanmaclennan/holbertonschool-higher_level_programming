@@ -6,10 +6,7 @@ private attribute size, getter and setter, public method
 
 
 class Square:
-    """
-    Class that defines a square.
-    Includes input validation, a method to compute the area, property setters/getters, and a method to print the square.
-    """
+    """Define a private instance size."""
 
     def __init__(self, size=0):
         """
