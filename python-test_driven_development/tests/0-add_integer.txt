@@ -1,0 +1,21 @@
+>>> from 0-add_integer import add_integer
+>>> add_integer(1, 2)
+3
+>>> add_integer(100, -2)
+98
+>>> add_integer(2)
+100
+>>> add_integer(100.3, -2)
+98.3
+>>> add_integer(4, "School")
+Traceback (most recent call last):
+...
+TypeError: b must be an integer
+>>> add_integer(None)
+Traceback (most recent call last):
+...
+TypeError: a must be an integer
+>>> add_integer(1.9, 2.1)
+4.0
+>>> add_integer(-1.5, -1.5)
+-3.0
