@@ -6,7 +6,7 @@
 >>> add_integer(2)
 100
 >>> add_integer(100.3, -2)
-98.3
+98
 >>> add_integer(4, "School")
 Traceback (most recent call last):
 ...
@@ -16,6 +16,6 @@ Traceback (most recent call last):
 ...
 TypeError: a must be an integer
 >>> add_integer(1.9, 2.1)
-4.0
+4
 >>> add_integer(-1.5, -1.5)
--3.0
+-3
