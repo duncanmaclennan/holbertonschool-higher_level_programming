@@ -1,7 +1,11 @@
 #!/usr/bin/python3
-"""Define an empty class."""
+"""
+Defining a Rectangle
+"""
 
 
 class Rectangle:
-    """Pass statemnet to avoid error."""
+    """
+    An empty class
+    """
     pass
