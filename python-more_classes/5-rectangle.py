@@ -1,45 +1,25 @@
 #!/usr/bin/python3
-"""
-Defining a Rectangle
-"""
+"""Define an recangle module"""
 
 
 class Rectangle:
-    """
-    Adding width and height
-    """
+    """defines a rectangle"""
 
     def __init__(self, width=0, height=0):
-        """
-        Args:
-            width: int
-            height: int
-        """
+        """constructor function"""
+
         self.width = width
         self.height = height
 
     @property
     def width(self):
-        """
-        Function to get value of width
-
-        Return:
-            width
-        """
+        """get width"""
         return self.__width
 
     @width.setter
     def width(self, value):
-        """
-        Function to set value of width
+        """set width"""
 
-        Arg:
-            value: int
-
-        Raises:
-            TypeError: width must be an int
-            ValueError: width must be >= 0
-        """
         if not isinstance(value, int):
             raise TypeError("width must be an integer")
         if value < 0:
@@ -48,27 +28,39 @@ class Rectangle:
 
     @property
     def height(self):
-        """
-        Function to get value of height
-
-        Return:
-            height
-        """
+        """get height"""
         return self.__height
 
     @height.setter
     def height(self, value):
-        """
-        Function to set value of height
-
-        Arg:
-            value: int
-        Raises:
-            TypeError: height must be an int
-            ValueError: height must be >= 0
-        """
+        """set height"""
         if not isinstance(value, int):
             raise TypeError("height must be an integer")
         if value < 0:
             raise ValueError("height must be >= 0")
         self.__height = value
+
+    def area(self):
+        """define a function that calculate the rectangle area"""
+        return self.__width * self.__height
+
+    def perimeter(self):
+        """defind a function that calculate the perimeter of the rectangle"""
+        if self.__width == 0 or self.__height == 0:
+            return 0
+
+        return (self.__width + self.__height) * 2
+
+    def __str__(self):
+        """defind a function that prints the rectangle"""
+        result = ""
+        if self.__width == 0 or self.__height == 0:
+            return result
+        result = "#" * self.width + "\n"
+        return (self.__height - 1) * result + "#" * self.width
+
+    def __repr__(self):
+        return f"Rectangle({self.__width}, {self.__height})"
+
+    def __del__(self):
+        print("Bye rectangle...")
