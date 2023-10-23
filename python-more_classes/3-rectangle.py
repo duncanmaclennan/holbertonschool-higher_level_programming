@@ -50,3 +50,11 @@ class Rectangle:
             return 0
 
         return (self.__width + self.__height) * 2
+
+    def __str__(self):
+        """defind a function that prints the rectangle"""
+        result = ""
+        if self.__width == 0 or self.__height == 0:
+            return result
+        result = "#" * self.width + "\n"
+        return (self.__height - 1) * result + "#" * self.width
