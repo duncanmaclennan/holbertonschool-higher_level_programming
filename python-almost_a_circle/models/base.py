@@ -1,29 +1,75 @@
 #!/usr/bin/python3
-"""Base Class"""
-import json
+"""
+Inheriting from Rectangle
+"""
+from models.rectangle import Rectangle
 
 
-class Base:
-    """Define Base class init function"""
-    __nb_objects = 0  # class var value is updated when instance var access it
+class Square(Rectangle):
+    """
+    class Square inherits from Rectangle
+    """
 
-    def __init__(self, id=None):
-        if id is not None:
-            self.id = id
+    def __init__(self, size, x=0, y=0, id=None):
+        """
+        Function initialises new Rectangle instance
+
+        Args:
+            size: int
+            x: int
+            y: int
+        """
+        super().__init__(id=id, width=size, height=size, x=x, y=y)
+
+    def __str__(self):
+        """
+        Return string format
+        """
+        return "[{}] ({}) {}/{} - {}".format(
+            self.__class__.__name__, self.id, self.x, self.y, self.width)
+
+    @property
+    def size(self):
+        return self.width
+
+    @size.setter
+    def size(self, value):
+        self.width = value
+        self.height = value
+
+    def update(self, *args, **kwargs):
+        """
+        Assigns attributes
+        """
+        if args:
+            try:
+                self.id = args[0]
+                self.size = args[1]
+                self.x = args[2]
+                self.y = args[3]
+            except IndexError:
+                pass
+
         else:
-            Base.__nb_objects += 1  # access class var
-            self.id = Base.__nb_objects
+            try:
+                self.id = kwargs["id"]
+            except KeyError:
+                pass
+            try:
+                self.size = kwargs["size"]
+            except KeyError:
+                pass
+            try:
+                self.x = kwargs["x"]
+            except KeyError:
+                pass
+            try:
+                self.y = kwargs["y"]
+            except KeyError:
+                pass
 
-    @staticmethod
-    def to_json_string(list_dictionaries):
-        """Return JSON representation"""
-        if list_dictionaries is None or list_dictionaries == []:
-            return "[]"
-        return json.dumps(list_dictionaries)
-
-    @staticmethod
-    def from_json_string(json_string):
-        """Return str representation"""
-        if json_string is None or json_string == "":
-            return []
-        return json.loads(json_string)
+    def to_dictionary(self):
+        """
+        Returns the dictionary representation of a Square
+        """
+        return {'id': self.id, 'size': self.size, 'x': self.x, 'y': self.y}
