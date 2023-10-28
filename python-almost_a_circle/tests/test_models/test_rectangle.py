@@ -31,10 +31,14 @@ class TestRectangle (unittest.TestCase):
         """
         Test for str args
         """
-        self.assertRaises(TypeError, Rectangle, "1")
-        self.assertRaises(TypeError, Rectangle, None)
-        self.assertRaises(TypeError, Rectangle, 1.1, 1.2)
-        self.assertRaises(ValueError, Rectangle, -1, 1)
+        with self.assertRaises(TypeError):
+            Rectangle("1", 2)
+        with self.assertRaises(TypeError):
+            Rectangle(None)
+        with self.assertRaises(TypeError):
+            Rectangle(1.1, 1.2)
+        with self.assertRaises(ValueError):
+            Rectangle(-1, 1)
 
     def test_area(self):
         """
