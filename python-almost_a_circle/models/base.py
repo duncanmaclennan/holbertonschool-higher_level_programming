@@ -1,75 +1,85 @@
 #!/usr/bin/python3
 """
-Inheriting from Rectangle
+class Base
 """
-from models.rectangle import Rectangle
+import json
 
 
-class Square(Rectangle):
+class Base:
     """
-    class Square inherits from Rectangle
+    Creating Base
     """
+    __nb_objects = 0
 
-    def __init__(self, size, x=0, y=0, id=None):
+    def __init__(self, id=None):
         """
-        Function initialises new Rectangle instance
+        Initialises new Base instance
 
-        Args:
-            size: int
-            x: int
-            y: int
+        Arg:
+            id: int (optional)
         """
-        super().__init__(id=id, width=size, height=size, x=x, y=y)
-
-    def __str__(self):
-        """
-        Return string format
-        """
-        return "[{}] ({}) {}/{} - {}".format(
-            self.__class__.__name__, self.id, self.x, self.y, self.width)
-
-    @property
-    def size(self):
-        return self.width
-
-    @size.setter
-    def size(self, value):
-        self.width = value
-        self.height = value
-
-    def update(self, *args, **kwargs):
-        """
-        Assigns attributes
-        """
-        if args:
-            try:
-                self.id = args[0]
-                self.size = args[1]
-                self.x = args[2]
-                self.y = args[3]
-            except IndexError:
-                pass
-
+        if id is not None:
+            self.id = id
         else:
-            try:
-                self.id = kwargs["id"]
-            except KeyError:
-                pass
-            try:
-                self.size = kwargs["size"]
-            except KeyError:
-                pass
-            try:
-                self.x = kwargs["x"]
-            except KeyError:
-                pass
-            try:
-                self.y = kwargs["y"]
-            except KeyError:
-                pass
+            Base.__nb_objects = Base.__nb_objects + 1
+            self.id = Base.__nb_objects
 
-    def to_dictionary(self):
+    @staticmethod
+    def to_json_string(list_dictionaries):
         """
-        Returns the dictionary representation of a Square
+        Return JSON string representation of list_dictionaries
         """
-        return {'id': self.id, 'size': self.size, 'x': self.x, 'y': self.y}
+        if list_dictionaries is None or list == []:
+            return "[]"
+        else:
+            return json.dumps(list_dictionaries)
+
+    @classmethod
+    def save_to_file(cls, list_objs):
+        """
+        Writes the JSON string representation of list_objs to a file
+        """
+        filename = cls.__name__ + ".json"
+        list_dict = []
+        with open(filename, "w") as jsonfile:
+            if list_objs is None:
+                jsonfile.write("[]")
+            else:
+                for obj in list_objs:
+                    list_dict.append(obj.to_dictionary())
+                jsonfile.write(cls.to_json_string(list_dict))
+
+    @staticmethod
+    def from_json_string(json_string):
+        """
+        Return the list of the JSON string representation json_string
+        """
+        if json_string is None or json_string == "[]":
+            return []
+        return json.loads(json_string)
+
+    @classmethod
+    def create(cls, **dictionary):
+        """
+        Return an instance with all attributes already set
+        """
+        if dictionary != {}:
+            if cls.__name__ == "Rectangle":
+                dummy = cls(1, 1)
+            else:
+                dummy = cls(1)
+            dummy.update(**dictionary)
+            return dummy
+
+    @classmethod
+    def load_from_file(cls):
+        """
+        Return a list of instances
+        """
+        filename = "{}.json".format(cls.__name__)
+        try:
+            with open(filename, "r") as jsonfile:
+                dict_list = cls.from_json_string(jsonfile.read())
+                return [cls.create(**dictionary) for dictionary in dict_list]
+        except FileNotFoundError:
+            return []
