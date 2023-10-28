@@ -98,6 +98,13 @@ class TestRectangle (unittest.TestCase):
         output = {'width': 1, 'height': 2, 'x': 3, 'y': 4, 'id': 5}
         self.assertEqual(r.to_dictionary(), output)
 
+    def test_create(self):
+        """
+        Test create() method
+        """
+        r = Rectangle.create(id=89)
+        self.assertEqual(r.id, 178)
+
 
 if __name__ == "__main__":
     unittest.main()
