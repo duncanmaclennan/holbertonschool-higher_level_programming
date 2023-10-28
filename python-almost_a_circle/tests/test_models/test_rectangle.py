@@ -36,11 +36,25 @@ class TestRectangle (unittest.TestCase):
         with self.assertRaises(TypeError):
             Rectangle(1, "2")
         with self.assertRaises(TypeError):
+            Rectangle(1, 2, "3")
+        with self.assertRaises(TypeError):
+            Rectangle(1, 2, 3, "4")
+        with self.assertRaises(TypeError):
             Rectangle(None)
         with self.assertRaises(TypeError):
             Rectangle(1.1, 1.2)
         with self.assertRaises(ValueError):
             Rectangle(-1, 1)
+        with self.assertRaises(ValueError):
+            Rectangle(1, -2)
+        with self.assertRaises(ValueError):
+            Rectangle(0, 2)
+        with self.assertRaises(ValueError):
+            Rectangle(1, 0)
+        with self.assertRaises(ValueError):
+            Rectangle(1, 2, -3)
+        with self.assertRaises(ValueError):
+            Rectangle(1, 2, 3, -4)
 
     def test_area(self):
         """
