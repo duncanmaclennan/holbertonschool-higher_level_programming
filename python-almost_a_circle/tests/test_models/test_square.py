@@ -30,10 +30,26 @@ class TestSquare (unittest.TestCase):
         """
         Test for str args
         """
-        self.assertRaises(TypeError, Square, "1")
-        self.assertRaises(TypeError, Square, None)
-        self.assertRaises(TypeError, Square, 1.1, 1.2)
-        self.assertRaises(ValueError, Square, -1, 1)
+        with self.assertRaises(TypeError):
+            Square("1")
+        with self.assertRaises(TypeError):
+            Square("1", 2)
+        with self.assertRaises(TypeError):
+            Square(None)
+        with self.assertRaises(TypeError):
+            Square(1.1, 1.2)
+        with self.assertRaises(ValueError):
+            Square(-1, 1)
+        with self.assertRaises(TypeError):
+            Square(1, "2")
+        with self.assertRaises(TypeError):
+            Square(1, 2, "3")
+        with self.assertRaises(ValueError):
+            Square(1, -2)
+        with self.assertRaises(ValueError):
+            Square(1, 2, -3)
+        with self.assertRaises(ValueError):
+            Square(0)
 
     def test_area(self):
         """
