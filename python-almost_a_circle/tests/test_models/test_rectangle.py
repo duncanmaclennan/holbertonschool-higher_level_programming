@@ -113,6 +113,15 @@ class TestRectangle (unittest.TestCase):
         self.assertEqual(
             list_rectangles_output[1].to_dictionary(), r2.to_dictionary())
 
+    def test_save_to_file_override(self):
+        r = Rectangle(1, 2)
+        Rectangle.save_to_file([r])
+
+        with open("Rectangle.json", "r") as file:
+            content = json.loads(file.read())
+
+        self.assertNotEqual(content[0]['__class__'], 'Rectangle')
+
 
 if __name__ == "__main__":
     unittest.main()
