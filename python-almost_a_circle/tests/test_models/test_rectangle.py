@@ -131,6 +131,11 @@ class TestRectangle (unittest.TestCase):
         with open("Rectangle.json", "r") as f:
             self.assertEqual(f.read(), "[]")
 
+        Rectangle.save_to_file([])
+
+        with open("Rectangle.json", "r") as f:
+            self.assertEqual(f.read(), "[]")
+
 
 if __name__ == "__main__":
     unittest.main()
