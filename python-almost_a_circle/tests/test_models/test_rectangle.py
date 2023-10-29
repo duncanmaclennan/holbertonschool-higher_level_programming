@@ -98,6 +98,21 @@ class TestRectangle (unittest.TestCase):
         output = {'width': 1, 'height': 2, 'x': 3, 'y': 4, 'id': 5}
         self.assertEqual(r.to_dictionary(), output)
 
+    def test_load_from_file(self):
+        """
+        Test if load_from_file behaves as expected
+        """
+        r1 = Rectangle(10, 7, 2, 8)
+        r2 = Rectangle(2, 4)
+        Rectangle.save_to_file([r1, r2])
+
+        list_rectangles_output = Rectangle.load_from_file()
+
+        self.assertEqual(
+            list_rectangles_output[0].to_dictionary(), r1.to_dictionary())
+        self.assertEqual(
+            list_rectangles_output[1].to_dictionary(), r2.to_dictionary())
+
 
 if __name__ == "__main__":
     unittest.main()
