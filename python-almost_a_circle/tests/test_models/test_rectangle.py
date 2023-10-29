@@ -98,6 +98,15 @@ class TestRectangle (unittest.TestCase):
         output = {'width': 1, 'height': 2, 'x': 3, 'y': 4, 'id': 5}
         self.assertEqual(r.to_dictionary(), output)
 
+    def test_save_to_file(self):
+        """
+        Test save_to_file
+        """
+        r = Rectangle(1, 2, 3, 4, 5)
+        r.save_to_file([r])
+        with open("Rectangle.json", "r") as file:
+            self.assertEqual(len(file.read()), 53)
+
 
 if __name__ == "__main__":
     unittest.main()
