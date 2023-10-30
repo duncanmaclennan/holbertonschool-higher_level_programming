@@ -1,98 +1,118 @@
+#!/usr/bin/python3
+"""Module for testing Square class"""
 import unittest
-
-from io import StringIO
-import sys
+import os
 from models.base import Base
-from models.rectangle import Rectangle
 from models.square import Square
 
 
-class TestSquare (unittest.TestCase):
-    """
-    Test cases for Square
-    """
+class TestSquare(unittest.TestCase):
+    """Test methods of SquareClass"""
 
-    def test_valid_input(self):
-        """
-        Test for input/arg
-        """
-        s0 = Square(1)
-        s1 = Square(1, 2, 3, 4)
-        self.assertEqual(s0.size, 1)
-        self.assertEqual(s0.x, 0)
-        self.assertEqual(s0.y, 0)
+    def setUp(self):
+        """reset the base class private attribute"""
+        Base._Base__nb_objects = 0
+
+    def tearDown(self):
+        """clean up the class private attribute"""
+        Base._Base__nb_objects = None
+
+    def test_init_with_valid_inputs(self):
+        """Test init method"""
+        s1 = Square(1)
         self.assertEqual(s1.size, 1)
-        self.assertEqual(s1.x, 2)
-        self.assertEqual(s1.y, 3)
-        self.assertEqual(s1.id, 4)
+        self.assertEqual(s1.id, 1)
 
-    def test_invalid_input(self):
-        """
-        Test for str args
-        """
-        with self.assertRaises(TypeError):
-            Square("1")
-        with self.assertRaises(TypeError):
-            Square("1", 2)
-        with self.assertRaises(TypeError):
-            Square(None)
-        with self.assertRaises(TypeError):
-            Square(1.1, 1.2)
-        with self.assertRaises(ValueError):
-            Square(-1, 1)
-        with self.assertRaises(TypeError):
-            Square(1, "2")
-        with self.assertRaises(TypeError):
-            Square(1, 2, "3")
-        with self.assertRaises(ValueError):
-            Square(1, -2)
-        with self.assertRaises(ValueError):
-            Square(1, 2, -3)
-        with self.assertRaises(ValueError):
-            Square(0)
+        s2 = Square(1, 2)
+        self.assertEqual(s2.size, 1)
+        self.assertEqual(s2.x, 2)
+        self.assertEqual(s2.id, 2)
 
-    def test_area(self):
-        """
-        Test area of Square
-        """
-        r = Square(2)
-        self.assertEqual(r.area(), 4)
+        s2 = Square(1, 2, 3)
+        self.assertEqual(s2.size, 1)
+        self.assertEqual(s2.x, 2)
+        self.assertEqual(s2.y, 3)
+        self.assertEqual(s2.id, 3)
 
-    def test_display_no_x_and_y_offset(self):
-        """
-        Tests that the graphical representation prints out correctly
-        """
-        r = Square(2, 2)
-        capturedOutput = StringIO()     # Create StringIO object
-        sys.stdout = capturedOutput     # and redirect stdout.
-        r.display()                     # Call unchanged function.
-        sys.stdout = sys.__stdout__     # Reset redirect.
-        self.assertEqual(capturedOutput.getvalue(), "  ##\n  ##\n")
+        s3 = Square(1, 2, 3, 4)
+        self.assertEqual(s3.size, 1)
+        self.assertEqual(s3.x, 2)
+        self.assertEqual(s3.y, 3)
+        self.assertEqual(s3.id, 4)
+
+    def test_init_with_invalid_inputs(self):
+        with self.assertRaises(TypeError):
+            Square("Pikachu", 7, 7)
+        with self.assertRaises(TypeError):
+            Square(7, "Pikachu", 7)
+        with self.assertRaises(TypeError):
+            Square(7, 7, "Pikachu")
+        with self.assertRaises(ValueError):
+            Square(-7, 7, 7)
+        with self.assertRaises(ValueError):
+            Square(7, -7, 7)
+        with self.assertRaises(ValueError):
+            Square(7, 7, -7)
+        with self.assertRaises(ValueError):
+            Square(0, 7, 7)
 
     def test_str(self):
-        """
-        Test __str__()
-        """
-        r = Square(1, 2, 3, 4)
-        self.assertEqual(str(r), "[Square] (4) 2/3 - 1")
+        """test the str method"""
+        prt_str1 = Square(3, 4, 5, 33)
+        self.assertEqual(str(prt_str1), "[Square] (33) 4/5 - 3")
+        prt_str2 = Square(3, 0)
+        self.assertEqual(str(prt_str2), "[Square] (1) 0/0 - 3")
 
     def test_update(self):
-        """
-        Test if attributes update
-        """
-        r = Square(1, 2, 3, 4)
-        r.update(5)
-        self.assertEqual(r.id, 5)
+        """Test update"""
+        s1 = Square(1, 2, 3, 4)
+        s1.update(7)
+        self.assertEqual(s1.id, 7)
+
+        s2 = Square(1, 2)
+        s2.update()
+        self.assertEqual(s2.size, 1)
+        self.assertEqual(s2.x, 2)
 
     def test_to_dictionary(self):
-        """
-        Test return dict representation of a Rect
-        """
-        r = Square(1, 2, 3, 4)
-        r_dict = r.to_dictionary()
-        output = {'size': 1, 'x': 2, 'y': 3, 'id': 4}
-        self.assertEqual(r.to_dictionary(), output)
+        """Testing to_dictionary()"""
+        s1 = Square(1, 2, 3, 4)
+        result = s1.to_dictionary()
+        self.assertEqual(result, {"id": 4, "size": 1, "x": 2, "y": 3})
 
+    def test_create(self):
+        """Test create"""
+        s1 = Square.create(**{'id': 3, 'size': 1, 'x': 3, 'y': 4})
+        expect = "[Square] (3) 3/4 - 1"
+        self.assertEqual(str(s1), expect)
 
-if __name__ == "__main__":
-    unittest.main()
+    def test_save_to_file(self):
+        """Test save to file"""
+        Square.save_to_file(None)
+        with open("Square.json", "r") as t_file:
+            self.assertEqual(t_file.read(), "[]")
+            os.remove("Square.json")
+
+        Square.save_to_file([])
+        with open("Square.json", "r") as t_file:
+            self.assertEqual(t_file.read(), "[]")
+            os.remove("Square.json")
+
+        Square.save_to_file([Square(1, 2)])
+        with open("Square.json", "r") as t_file:
+            expect = '[{"id": 1, "size": 1, "x": 2, "y": 0}]'
+            self.assertEqual(t_file.read(), expect)
+            os.remove("Square.json")
+
+    def test_from_json(self):
+        """Test load from file"""
+        s1 = Square(1)
+        s2 = Square(3)
+        list_of_objs = [s1, s2]
+        Square.save_to_file(list_of_objs)
+
+        result_list = Square.load_from_file()
+        self.assertTrue(len(result_list) == 2)
+        self.assertTrue(result_list[0].size == 1)
+        self.assertTrue(result_list[1].size == 3)
+        os.remove("Square.json")

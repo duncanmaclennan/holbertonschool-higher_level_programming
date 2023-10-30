@@ -1,64 +1,43 @@
+#!/usr/bin/python3
+"""Test Module"""
 import unittest
-
 from models.base import Base
 
 
-class TestBase (unittest.TestCase):
-    """
-    Test cases for Base
-    """
+class TestBaseClass(unittest.TestCase):
+    """Test methods of BassClass"""
 
-    def test_assign_id(self):
-        """
-        Test if Base assigns unique ID
-        """
-        b0 = Base()
-        b1 = Base()
-        self.assertNotEqual(b0.id, b1.id)
+    def setUp(self):
+        """Runs for each test reset private attribute"""
+        Base._Base__nb_objects = 0
 
-    def test_assign_next_id(self):
-        """
-        Test if Base assigns id that is +1 from previous id (if is exists)
-        """
-        b0 = Base()
-        b1 = Base()
-        b2 = Base()
-        self.assertEqual(b0.id + 1, b1.id)
-        self.assertEqual(b1.id + 1, b2.id)
+    def test_init_none_id(self):
+        """Test none_id passed in"""
+        base0 = Base()
+        self.assertEqual(base0.id, 1)
 
-    def test_save_id(self):
-        """
-        Test if Base saves id
-        """
-        b = Base(123)
-        self.assertEqual(b.id, 123)
+    def test_init_id_passed(self):
+        """Test whether Base returns id if a number passed in"""
+        base = Base(7)
+        self.assertEqual(base.id, 7)
 
-    def test_json_str_input(self):
-        """
-        Test to_json_string returns [] if input None or empty
-        """
+    def test_init_increm_id(self):
+        """Test whether incremental works none_id passed in"""
+        base1 = Base()
+        base2 = Base()
+        self.assertEqual(base1.id, 1)
+        self.assertEqual(base2.id, 2)
+
+    def test_json_string_with_none(self):
+        """Test Json string with None passed in"""
         self.assertEqual(Base.to_json_string(None), "[]")
+
+    def test_json_string_with_empty_list(self):
+        """Test Json string with None passed in"""
         self.assertEqual(Base.to_json_string([]), "[]")
 
-    def test_to_json_string(self):
-        """
-        Test to_json_string returns JSON string representation of input
-        """
-        json_input = [{"id": 10}]
-        func = Base.to_json_string(json_input)
-        self.assertEqual(func, '[{"id": 10}]')
-
-    def test_from_json_str_input(self):
-        """
-        Test from_json_string returns [] if input None or empty
-        """
-        self.assertEqual(Base.from_json_string(None), [])
-        self.assertEqual(Base.from_json_string("[]"), [])
-
-    def test_from_json_str(self):
-        """
-        Test from_json_string returns list of JSON string representation
-        """
-        json_input = '[{"id": 10}]'
-        func = Base.from_json_string(json_input)
-        self.assertEqual(func, [{"id": 10}])
+    def test_json_string_with_dict_list(self):
+        """Test Json string with valid dict_list"""
+        list_input = [{'id': 89}, {'width': 10}]
+        self.assertEqual(Base.to_json_string(list_input),
+                         '[{"id": 89}, {"width": 10}]')
