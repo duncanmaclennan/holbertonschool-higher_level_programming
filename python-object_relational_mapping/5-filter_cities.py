@@ -14,15 +14,18 @@ if __name__ == "__main__":
 
     cursorObj = mydb.cursor()
 
-    # Execute the query with the state name as a parameter (safe from injection)
-    cursorObj.execute("SELECT cities.name, FROM cities \
-                       JOIN states ON cities.state_id = states.id, WHERE states.name = %s \
-                       ORDER BY cities.id ASC;", (sys.argv[4],))
+    query = """
+    SELECT cities.name
+    FROM cities
+    JOIN states ON cities.state_id = states.id
+    WHERE states.name = %s
+    ORDER BY cities.id ASC;
+    """
 
-    # Fetch all the rows
+    cursorObj.execute(query, (sys.argv[4],))
+
     myresult = cursorObj.fetchall()
 
-    # Print the cities in one line, separated by commas
     print(", ".join([city[0] for city in myresult]))
 
     cursorObj.close()
