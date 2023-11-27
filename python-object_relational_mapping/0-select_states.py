@@ -1,31 +1,38 @@
 #!/usr/bin/python3
-"""lists all states from the database hbtn_0e_0_usa"""
-
 import MySQLdb
 import sys
 
-
 if __name__ == "__main__":
-    # mydb is connection object
-    mydb = MySQLdb.connect(
-        host="localhost",
-        port=3306,
-        user=sys.argv[1],
-        passwd=sys.argv[2],
-        database=sys.argv[3])
+    # Check if all three required arguments are provided
+    if len(sys.argv) != 4:
+        print("Usage: ./0-select_states.py <username> <password> <database>")
+        sys.exit(1)
 
-    # cursorObj is object to execute queries
-    cursorObj = mydb.cursor()
+    # Extract arguments
+    username = sys.argv[1]
+    password = sys.argv[2]
+    database = sys.argv[3]
 
-    # cursor object execute SQL query but not return value
-    cursorObj.execute("SELECT * FROM states ORDER BY id ASC")
+    try:
+        # Connect to the MySQL server
+        db = MySQLdb.connect(host="localhost", port=3306,
+                             user=username, passwd=password, db=database)
 
-    # Fetch all the rows and display them
-    myresult = cursorObj.fetchall()
+        # Create a cursor object to interact with the database
+        cursor = db.cursor()
 
-    for row in myresult:
-        print(row)
+        # Execute the SQL query to retrieve states
+        cursor.execute("SELECT * FROM states ORDER BY id ASC")
 
-    # shut cursor and database connection
-    cursorObj.close()
-    mydb.close()
+        # Fetch and print the results
+        results = cursor.fetchall()
+        for row in results:
+            print(row)
+
+        # Close the cursor and database connection
+        cursor.close()
+        db.close()
+
+    except MySQLdb.Error as e:
+        print("MySQL Error:", e)
+        sys.exit(1)
