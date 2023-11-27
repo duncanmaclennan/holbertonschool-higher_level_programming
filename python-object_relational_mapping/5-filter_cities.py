@@ -14,17 +14,10 @@ if __name__ == "__main__":
 
     cursorObj = mydb.cursor()
 
-    # Prepared statement with placeholder for state name
-    query = """
-    SELECT cities.name
-    FROM cities
-    JOIN states ON cities.state_id = states.id
-    WHERE states.name = %s
-    ORDER BY cities.id ASC;
-    """
-
     # Execute the query with the state name as a parameter (safe from injection)
-    cursorObj.execute(query, (sys.argv[4],))
+    cursorObj.execute("SELECT cities.name, FROM cities\
+                       JOIN states ON cities.state_id = states.id, WHERE states.name = %s\
+                       ORDER BY cities.id ASC;", (sys.argv[4],))
 
     # Fetch all the rows
     myresult = cursorObj.fetchall()
