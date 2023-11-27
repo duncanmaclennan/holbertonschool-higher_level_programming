@@ -15,8 +15,8 @@ if __name__ == "__main__":
     cursorObj = mydb.cursor()
 
     # Execute the query with the state name as a parameter (safe from injection)
-    cursorObj.execute("SELECT cities.name, FROM cities\
-                       JOIN states ON cities.state_id = states.id, WHERE states.name = %s\
+    cursorObj.execute("SELECT cities.name, FROM cities \
+                       JOIN states ON cities.state_id = states.id, WHERE states.name = %s \
                        ORDER BY cities.id ASC;", (sys.argv[4],))
 
     # Fetch all the rows
