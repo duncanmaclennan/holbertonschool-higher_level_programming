@@ -16,17 +16,17 @@ if __name__ == "__main__":
     # cursorObj is object to execute queries
     cursorObj = mydb.cursor()
 
-    # Prepared statement with placeholder for state name
-    query = "SELECT * FROM states WHERE BINARY name = %s ORDER BY id ASC"
+    # Prepared statement with placeholder for state name, limit to 1 result
+    query = "SELECT * FROM states WHERE BINARY name = %s ORDER BY id ASC LIMIT 1"
 
     # Execute the query with the state name as a parameter (safe from injection)
     cursorObj.execute(query, (sys.argv[4],))
 
-    # Fetch all the rows and display them
-    myresult = cursorObj.fetchall()
+    # Fetch the row and display it
+    myresult = cursorObj.fetchone()
 
-    for row in myresult:
-        print(row)
+    if myresult:
+        print(myresult)
 
     # shut cursor and database connection
     cursorObj.close()
