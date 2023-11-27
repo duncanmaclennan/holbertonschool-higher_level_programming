@@ -1,29 +1,21 @@
 #!/usr/bin/python3
-"""Lists all State objects that contain the letter 'a' from hbtn_0e_6_usa database."""
-
+"""
+Scripts that lists all State objects that contain an 'a' from
+the database hbtn_0e_6_usa
+"""
+import MySQLdb
 import sys
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from model_state import Base, State  # Import State and Base
+from model_state import Base, State
 
 if __name__ == "__main__":
-    # Create engine
-    engine = create_engine(
-        f'mysql+mysqldb://{sys.argv[1]}:{sys.argv[2]}@localhost/{sys.argv[3]}')
-
-    # Create a configured "Session" class
-    Session = sessionmaker(bind=engine)
-
-    # Create a Session
-    session = Session()
-
-    # Query all States that contain 'a', sorted by id
-    states = session.query(State).filter(
-        State.name.like('%a%')).order_by(State.id)
-
-    # Print states
-    for state in states:
-        print(f"{state.id}: {state.name}")
-
-    # Close the session
-    session.close()
+    database = MySQLdb.connect(host="localhost", user=sys.argv[1],
+                               passwd=sys.argv[2], db=sys.argv[3])
+    cursor = database.cursor()
+    cursor.execute("SELECT * FROM states WHERE name LIKE '%a%' \
+                   ORDER BY id;")
+    rows = cursor.fetchall()
+    for row in rows:
+        print("{}: {}".format(row[0], row[1]))
+    cursor.close()
+    database.close()
